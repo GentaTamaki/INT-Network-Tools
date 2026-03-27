@@ -1,29 +1,72 @@
-
-
 # INT Network Tools
 
-**Network Timecode Infrastructure for Creative Workflows**
+Network Timecode Infrastructure for Creative Workflows
 
-INT Network Tools is an experimental system architecture designed to transport, resolve, and distribute timecode across networked environments while maintaining compatibility with traditional **LTC-based workflows**.
 
-The project focuses on bridging modern software-driven production systems with legacy professional timing infrastructure used in broadcast, stage, and virtual production environments.
+🇺🇸 English | 🇯🇵 [日本語](README_JA.md)
+
+Protocol: **INTTC v1.2** | Status: **Draft** | Transport: **UDP 8001**
+
+
+INT Network Tools is an experimental system architecture designed to transport, resolve, and distribute timecode across networked environments while maintaining compatibility with traditional **LTC‑based workflows**.
+
+The project focuses on bridging modern software‑driven production systems with legacy professional timing infrastructure used in broadcast, stage, and virtual production environments.
 
 ---
 
-## Project Goals
+# Why INT Network Tools Exists
+
+Modern production environments increasingly rely on software timelines and networked systems, while many professional synchronization workflows still depend on **LTC-based hardware infrastructure**.
+
+This creates a gap between:
+
+- software-driven creative tools
+- hardware-based timing systems used in broadcast, stage, and media playback
+
+INT Network Tools is designed to bridge this gap.
+
+It introduces a **network-native timecode layer (INTTC)** that allows software systems to distribute timing information across IP networks while remaining compatible with traditional LTC workflows through bridge devices.
+
+In short:
+
+```
+Software timelines → Network timecode → LTC hardware ecosystem
+```
+
+This approach enables modern creative tools to integrate with existing professional infrastructure without replacing it.
+
+---
+
+# Documentation
+
+### Philosophy
+- English: `docs/philosophy/INT_Philosophy.md`
+- 日本語: `docs/philosophy/INT_Philosophy_JA.md`
+
+### System Specification
+- English: `docs/system/INT_System_Spec_v0.1.md`
+- 日本語: `docs/system/INT_System_Spec_v0.1_JA.md`
+
+### INTTC Protocol
+- English: `docs/protocol/INTTC_Protocol_v1.2.md`
+- 日本語: `docs/protocol/INTTC_Protocol_v1.2_JA.md`
+
+---
+
+# Project Goals
 
 INT Network Tools aims to:
 
-- Enable **network-native timecode distribution**
+- Enable **network‑native timecode distribution**
 - Maintain compatibility with **existing LTC hardware ecosystems**
-- Support both **editorial workflows** and **frame-critical synchronization environments**
+- Support both **editorial workflows** and **frame‑critical synchronization environments**
 - Provide a foundation for **future timing systems (PTP, GPS, distributed sync)**
 
 ---
 
-## Core Concepts
+# Core Concepts
 
-### Network Timecode Layer
+## Network Timecode Layer
 
 Instead of replacing existing synchronization systems, INT introduces a **network distribution layer for timecode**.
 
@@ -31,35 +74,37 @@ Software systems can generate and distribute time information while remaining co
 
 ---
 
-### Output Policy
+## Output Policy
 
 The system supports two operational timing models.
 
-#### Loose
+### Loose
 
 Designed for editorial workflows.
 
 Characteristics:
 
-- Small timing jitter tolerated
-- Packet-driven updates acceptable
-- Fast reacquisition preferred
+- Small timing jitter tolerated  
+- Packet‑driven updates acceptable  
+- Fast reacquisition preferred  
 
 Typical uses:
 
 - Client monitoring
 - Review environments
-- Post-production editing
+- Post‑production editing
 
-#### Tight
+---
 
-Designed for synchronization-critical environments.
+### Tight
+
+Designed for synchronization‑critical environments.
 
 Characteristics:
 
 - Continuous frame progression
 - Stable frame boundaries
-- Clock-disciplined output
+- Clock‑disciplined output
 
 Typical uses:
 
@@ -70,7 +115,7 @@ Typical uses:
 
 ---
 
-## Architecture
+# Architecture
 
 INT Network Tools consists of three primary device classes.
 
@@ -82,7 +127,43 @@ INTTC Network
 Receiver / Bridge
 ```
 
-### Sender
+Example topology:
+
+```
+Resolve (Sender)
+      │
+      │ INTTC
+      │
+ ┌───────────────┬───────────────┐
+ │               │               │
+Receiver      Receiver        Bridge
+(Display)     (Software)     (LTC Generator)
+```
+
+Conceptual timing bridge:
+
+```
+Software Timeline
+        │
+        │ INTTC
+        │
+   Network Layer
+        │
+ ┌──────┴─────────┐
+ │                │
+Receiver       Bridge
+(Display)      (LTC Output)
+                  │
+                Legacy
+                Devices
+```
+
+This diagram illustrates how INTTC acts as a network layer between modern software timelines and legacy LTC‑based hardware systems.
+```
+
+---
+
+## Sender
 
 Generates network timecode packets.
 
@@ -93,7 +174,7 @@ Example:
 
 ---
 
-### Receiver
+## Receiver
 
 Software receiver that resolves and displays timecode.
 
@@ -103,7 +184,7 @@ Example:
 
 ---
 
-### Bridge
+## Bridge
 
 Hardware receiver that converts network timecode into **LTC output**.
 
@@ -114,9 +195,9 @@ Example implementation:
 
 ---
 
-## Core Technology
+# Core Technology
 
-### INTTC Protocol
+## INTTC Protocol
 
 INT Network Tools uses the **INTTC protocol** for network timecode transport.
 
@@ -125,7 +206,7 @@ Protocol features include:
 - Timecode distribution over UDP
 - Source identification
 - Frame rate metadata
-- Drop-frame support
+- Drop‑frame support
 - Multiple time sources
 
 Default transport:
@@ -136,17 +217,17 @@ UDP Port 8001
 
 ---
 
-## Design Principles
+# Design Principles
 
-### Compatibility First
+## Compatibility First
 
 INT Network Tools always preserves compatibility with existing workflows.
 
-**LTC output remains a first-class interface.**
+**LTC output remains a first‑class interface.**
 
 ---
 
-### Software‑Defined Timing
+## Software‑Defined Timing
 
 Receivers maintain an internal timing model separating:
 
@@ -165,31 +246,31 @@ This architecture allows:
 
 ---
 
-## Example Applications
+# Example Applications
 
-### Post Production
+## Post Production
 
 - editorial review
 - client monitors
 
-### Broadcast
+## Broadcast
 
 - LTC distribution
 - timing displays
 
-### Virtual Production
+## Virtual Production
 
 - Unreal Engine synchronization
 - LED wall playback
 
-### Stage Systems
+## Stage Systems
 
 - DMX lighting
 - media server synchronization
 
 ---
 
-## Repository Structure
+# Repository Structure
 
 ```
 docs/
@@ -209,7 +290,7 @@ receiver/
 
 ---
 
-## Project Status
+# Project Status
 
 Early architecture and specification stage.
 
@@ -222,12 +303,12 @@ Core components currently under development:
 
 ---
 
-## License
+# License
 
 TBD
 
 ---
 
-## Author
+# Author
 
 INT Network Tools DEV
