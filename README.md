@@ -10,6 +10,8 @@ Protocol: **INTTC v1.2** | Status: **Draft** | Transport: **UDP 8001**
 
 INT Network Tools is an experimental system architecture designed to transport, resolve, and distribute timecode across networked environments while maintaining compatibility with traditional **LTC‑based workflows**.
 
+INTTC is designed as a network-native timecode layer bridging software timelines and LTC-based synchronization systems.
+
 The project focuses on bridging modern software‑driven production systems with legacy professional timing infrastructure used in broadcast, stage, and virtual production environments.
 
 ---
