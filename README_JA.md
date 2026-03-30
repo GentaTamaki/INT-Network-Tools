@@ -17,18 +17,18 @@ INTTC は、ソフトウェアタイムラインと LTC ベースの同期シス
 
 ## Philosophy（設計思想）
 
-- English: `docs/philosophy/INT_Philosophy.md`
-- 日本語: `docs/philosophy/INT_Philosophy_JA.md`
+- English: [INT_Philosophy.md](docs/philosophy/INT_Philosophy.md)
+- 日本語: [INT_Philosophy_JA.md](docs/philosophy/INT_Philosophy_JA.md)
 
 ## System Specification（システム仕様）
 
-- English: `docs/system/INT_System_Spec_v0.1.md`
-- 日本語: `docs/system/INT_System_Spec_v0.1_JA.md`
+- English: [INT_System_Spec_v0.1.md](docs/system/INT_System_Spec_v0.1.md)
+- 日本語: [INT_System_Spec_v0.1_JA.md](docs/system/INT_System_Spec_v0.1_JA.md)
 
 ## INTTC Protocol（プロトコル仕様）
 
-- English: `docs/protocol/INTTC_Protocol_v1.2.md`
-- 日本語: `docs/protocol/INTTC_Protocol_v1.2_JA.md`
+- English: [INTTC_Protocol_v1.2.md](docs/protocol/INTTC_Protocol_v1.2.md)
+- 日本語: [INTTC_Protocol_v1.2_JA.md](docs/protocol/INTTC_Protocol_v1.2_JA.md)
 
 ---
 
