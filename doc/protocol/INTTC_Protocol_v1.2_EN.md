@@ -322,6 +322,35 @@ Receiver implementations may implement additional timing models such as:
 - smooth reacquire
 - reference discipline
 
+## 7.1 Sender Transmission Model
+
+INTTC senders should transmit packets at a fixed rate independent of project frame rate.
+
+Default sender mode:
+
+- Packet rate: 60 Hz
+- Expected interval: approximately 16.67 ms (60 Hz)
+
+Each packet represents a snapshot of the sender's current logical timing state at the sender send tick, including:
+
+- primary timecode
+- alternate timecode
+- sender state
+- active source
+- frame rate
+- drop-frame flag
+
+Packets are not defined as one-per-frame messages and should not be interpreted as future frame scheduling instructions.
+
+Receivers must treat packet content as the authoritative timing state rather than the packet arrival time.
+
+Senders may additionally emit immediate packets when significant state changes occur, including the following cases:
+
+- play / stop transitions
+- source selection changes
+- timecode discontinuities (senders should emit an immediate packet when such discontinuities occur)
+- frame-rate related changes
+
 ---
 
 # 8. Design Goals
