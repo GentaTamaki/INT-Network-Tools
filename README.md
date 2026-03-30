@@ -41,6 +41,8 @@ This approach enables modern creative tools to integrate with existing professio
 
 # Documentation
 
+Contribution guidelines: see [CONTRIBUTING.md](CONTRIBUTING.md)
+
 ### Philosophy
 - English: [INT_Philosophy.md](docs/philosophy/INT_Philosophy.md)
 - 日本語: [INT_Philosophy_JA.md](docs/philosophy/INT_Philosophy_JA.md)
