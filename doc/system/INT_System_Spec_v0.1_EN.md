@@ -68,6 +68,29 @@ INT TimeCode Tool
 (DaVinci Resolve Workflow Integration Plugin)
 ```
 
+### Sender Transmission Timing
+
+Senders should transmit INTTC packets at a fixed rate independent of project frame rate.
+
+Default sender mode:
+
+- Packet rate: 60 Hz
+- Expected interval: approximately 16.67 ms (60 Hz)
+
+Each transmitted packet represents a snapshot of the sender's current logical timeline state at the sender transmission tick.
+
+The packet transmission schedule determines **when packets are sent**, but does not redefine the true timecode value itself.
+
+Receivers must treat the **packet content** as the authoritative timing state rather than relying on packet arrival time.
+
+Senders may also emit immediate packets when significant state changes occur, including:
+
+- play / stop transitions
+- source selection changes
+- timecode discontinuities
+- frame‑rate related configuration changes
+```
+
 ---
 
 ## 3.2 Receiver
