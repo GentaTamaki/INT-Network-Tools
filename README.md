@@ -42,16 +42,16 @@ This approach enables modern creative tools to integrate with existing professio
 # Documentation
 
 ### Philosophy
-- English: `docs/philosophy/INT_Philosophy.md`
-- 日本語: `docs/philosophy/INT_Philosophy_JA.md`
+- English: [INT_Philosophy.md](docs/philosophy/INT_Philosophy.md)
+- 日本語: [INT_Philosophy_JA.md](docs/philosophy/INT_Philosophy_JA.md)
 
 ### System Specification
-- English: `docs/system/INT_System_Spec_v0.1.md`
-- 日本語: `docs/system/INT_System_Spec_v0.1_JA.md`
+- English: [INT_System_Spec_v0.1.md](docs/system/INT_System_Spec_v0.1.md)
+- 日本語: [INT_System_Spec_v0.1_JA.md](docs/system/INT_System_Spec_v0.1_JA.md)
 
 ### INTTC Protocol
-- English: `docs/protocol/INTTC_Protocol_v1.2.md`
-- 日本語: `docs/protocol/INTTC_Protocol_v1.2_JA.md`
+- English: [INTTC_Protocol_v1.2.md](docs/protocol/INTTC_Protocol_v1.2.md)
+- 日本語: [INTTC_Protocol_v1.2_JA.md](docs/protocol/INTTC_Protocol_v1.2_JA.md)
 
 ---
 
@@ -168,6 +168,15 @@ This diagram illustrates how INTTC acts as a network layer between modern softwa
 ## Sender
 
 Generates network timecode packets.
+
+Senders typically transmit INTTC packets at a **fixed rate independent of project frame rate**.
+
+Default transmission model:
+
+- Packet rate: **60 Hz**
+- Expected interval: **~16.67 ms**
+
+Each packet represents a snapshot of the sender's current logical timeline state. Receivers treat the **packet content** as the authoritative timing state rather than relying on packet arrival timing.
 
 Example:
 
