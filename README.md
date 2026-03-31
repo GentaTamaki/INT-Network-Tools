@@ -1,5 +1,7 @@
 # INT Platform
 
+INT Platform is a production synchronization infrastructure for modern media workflows.
+
 Production Synchronization Infrastructure for Creative Workflows
 
 
@@ -163,6 +165,38 @@ Receiver       Bridge
 ```
 
 This diagram illustrates how INTTC acts as a network layer between modern software timelines and legacy LTC‑based hardware systems.
+
+---
+
+# Three-Layer Model
+
+INT Platform can be understood as a three-layer synchronization model:
+
+```
+Software Timeline Layer
+        ↓
+INTTC Network Layer
+        ↓
+Hardware Synchronization Layer
+```
+
+In practical terms:
+
+```
+Editing / Playback Software
+        ↓
+INTTC
+        ↓
+Bridge / Receiver
+        ↓
+LTC / Legacy / External Sync Systems
+```
+
+This model helps distinguish:
+
+- where timecode is generated
+- how timecode is transported
+- where timecode is resolved or converted for external systems
 ```
 
 ---

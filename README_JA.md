@@ -13,6 +13,38 @@ INTTC は、ソフトウェアタイムラインと LTC ベースの同期シス
 
 ---
 
+# 三層モデル（Three-Layer Model）
+
+INT Platform は、同期インフラを **3つのレイヤー**として理解できます。
+
+```
+Software Timeline Layer
+        ↓
+INTTC Network Layer
+        ↓
+Hardware Synchronization Layer
+```
+
+実際のワークフローでは次のような構造になります。
+
+```
+Editing / Playback Software
+        ↓
+INTTC
+        ↓
+Bridge / Receiver
+        ↓
+LTC / Legacy / External Sync Systems
+```
+
+このモデルは以下を明確にするためのものです。
+
+- タイムコードを **どこで生成するのか**
+- タイムコードを **どのレイヤーで伝送するのか**
+- タイムコードを **どこで変換・出力するのか**
+
+---
+
 # ドキュメント
 Contribution guidelines: see [CONTRIBUTING.md](CONTRIBUTING.md)
 
