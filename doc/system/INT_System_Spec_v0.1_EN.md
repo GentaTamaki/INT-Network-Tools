@@ -258,6 +258,72 @@ Reference sources regulate the stability of the **Frame Clock** but do not direc
 
 ---
 
+# 6.1 Input Modes
+
+Bridge devices may support multiple input signal types through a shared BNC input connector.
+
+The BNC input is designed to support mutually exclusive input modes:
+
+```
+LTC In
+Sync In (future implementation)
+```
+
+Only one input mode may be active at a time.
+
+In Bridge v1 implementations, LTC In may be supported first while Sync In remains reserved for future implementation.
+
+Hardware and board-level design should preserve sufficient flexibility to enable future Sync In support on the same BNC input path.
+
+Sync In is intended to act as a timing discipline or reference signal for output generation rather than a direct source of target timecode.
+
+---
+
+
+# 6.2 Status Indicators (LED)
+
+Bridge devices may include minimal hardware status indicators to allow basic operational state inspection without external monitoring tools.
+
+A recommended minimal configuration consists of two LEDs:
+
+```
+Green LED
+Red LED
+```
+
+Typical semantics:
+
+Green LED (normal operation):
+
+- Boot / initialization: slow blink
+- Active packet reception and output generation: steady on or activity blink
+
+Red LED (warning or fault conditions):
+
+- Stale packet condition: blinking
+- Offline / fault state: steady on
+
+Exact LED behavior patterns may vary between implementations but should reflect the internal clock or network state machine where possible.
+
+---
+
+# 6.3 Bridge Hardware Overview
+
+A typical Bridge implementation consists of a lightweight network receiver and LTC generation pipeline implemented in embedded hardware.
+
+Example reference implementation:
+
+```
+MCU: RP2040 (Pico2)
+Network interface: W5500 Ethernet controller
+Shared BNC input: LTC In / Sync In (exclusive mode)
+Status indicators: Green LED, Red LED
+```
+
+Hardware implementations should remain flexible to allow future expansion including additional reference inputs or synchronization features.
+
+---
+
 # 7. Frame Clock
 
 The Frame Clock is a receiver‑local timing engine responsible for advancing output time.

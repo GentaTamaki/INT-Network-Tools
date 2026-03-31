@@ -258,6 +258,72 @@ Reference Source は **Frame Clock の安定性を制御**します。
 
 ---
 
+
+# 6.1 Input Modes
+
+Bridge デバイスは、共有 BNC 入力コネクタを通じて複数の入力信号タイプをサポートする設計とすることができます。
+
+この BNC 入力は、以下の **排他的入力モード**をサポートすることを想定しています。
+
+```
+LTC In
+Sync In (将来実装)
+```
+
+同時に有効化できる入力モードは **1つのみ**とします。
+
+Bridge v1 の実装では、まず LTC In のみをサポートし、Sync In は将来実装のために予約された機能として扱うことができます。
+
+ハードウェア設計および基板レベルの設計では、同一 BNC 入力経路で将来 Sync In を実装できるよう、十分な拡張余地を残すことが推奨されます。
+
+Sync In は target timecode の直接ソースではなく、出力生成のための **timing discipline / reference 信号**として使用されることが想定されています。
+
+---
+
+# 6.2 Status Indicators (LED)
+
+Bridge デバイスは、外部ツールを使用せずに基本的な動作状態を確認できるよう、最小限のハードウェア状態表示を持つことが推奨されます。
+
+推奨される最小構成は以下の 2 つの LED です。
+
+```
+Green LED
+Red LED
+```
+
+典型的な意味付け:
+
+Green LED（正常動作）:
+
+- Boot / 初期化中: ゆっくり点滅
+- パケット受信および出力生成がアクティブ: 点灯またはアクティビティ点滅
+
+Red LED（警告または障害状態）:
+
+- Stale パケット状態: 点滅
+- Offline / Fault 状態: 点灯
+
+具体的な LED パターンは実装によって異なっても構いませんが、可能な限り内部のクロックまたはネットワーク状態マシンを反映することが望ましいです。
+
+---
+
+# 6.3 Bridge Hardware Overview
+
+一般的な Bridge 実装は、軽量なネットワーク受信処理と LTC 生成パイプラインを組み合わせた組み込みハードウェアとして構成されます。
+
+参考実装例:
+
+```
+MCU: RP2040 (Pico2)
+Network interface: W5500 Ethernet controller
+Shared BNC input: LTC In / Sync In (排他モード)
+Status indicators: Green LED, Red LED
+```
+
+ハードウェア実装は、将来の参照入力や同期機能の拡張に対応できるよう、柔軟性を保つ設計とすることが望まれます。
+
+---
+
 # 7. Frame Clock
 
 Frame Clock は Receiver 内部で動作するフレーム進行エンジンです。

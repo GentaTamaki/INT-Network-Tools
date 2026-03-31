@@ -14,6 +14,7 @@ INTTC は、ソフトウェアタイムラインと LTC ベースの同期シス
 ---
 
 # ドキュメント
+Contribution guidelines: see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Philosophy（設計思想）
 

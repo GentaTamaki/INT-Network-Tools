@@ -10,8 +10,23 @@ To maintain documentation stability and clarity, please follow the documentation
 
 # Documentation Editing Rules
 
+
 Documentation files in this repository represent the system specification and protocol definitions.  
 To avoid accidental corruption of documents, follow these rules when editing.
+
+## 0. Explicitly identify the file before editing
+
+Before proposing or applying any modification, clearly state the **exact file path** that will be edited.
+
+Example:
+
+`docs/system/INT_System_Spec_v0.1_EN.md`
+
+Editing must not proceed until the target file has been explicitly identified and confirmed.
+
+After the file is identified, confirmation to proceed with the edit must be obtained before making any modification.
+
+This step is required before applying the rules below.
 
 ## 1. Do not rewrite entire files
 
@@ -72,6 +87,24 @@ Example commit message:
 `Add sender transmission timing section to system specification`
 
 Avoid large commits affecting many documents.
+
+---
+
+## 6. Confirm changes before continuing
+
+After any modification is applied, confirm that the change was correctly implemented before proceeding with additional edits.
+
+Recommended workflow:
+
+1. Identify the change to be made
+2. Apply the minimal modification
+3. Confirm the result (build / render / behavior / document content)
+4. Commit the confirmed change
+5. Only then proceed to the next modification
+
+Do not propose or apply multiple follow‑up changes before the result of the current modification has been verified.
+
+This rule applies to documentation, software, hardware, and specification development in this repository.
 
 ---
 
