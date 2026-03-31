@@ -1,4 +1,5 @@
 # INT Platform
+クリエイティブ制作システム向けネットワーク同期インフラストラクチャ
 
 INT Platform は、現代のメディア制作ワークフローのためのプロダクション同期インフラストラクチャです。
 
@@ -15,14 +16,16 @@ INTTC は、ソフトウェアタイムラインと LTC ベースの同期シス
 
 # 三層モデル（Three-Layer Model）
 
-INT Platform は、同期インフラを **3つのレイヤー**として理解できます。
+INT Platform は、同期インフラを **レイヤーモデル**として理解することもできます。
 
 ```
 Software Timeline Layer
         ↓
-INTTC Network Layer
+Sender Layer
         ↓
-Hardware Synchronization Layer
+Distribution Layer
+        ↓
+Receiver / Hardware Layer
 ```
 
 実際のワークフローでは次のような構造になります。
@@ -30,18 +33,21 @@ Hardware Synchronization Layer
 ```
 Editing / Playback Software
         ↓
-INTTC
+Sender
         ↓
-Bridge / Receiver
+INT Distributor
+        ↓
+Receiver / Bridge
         ↓
 LTC / Legacy / External Sync Systems
 ```
 
-このモデルは以下を明確にするためのものです。
+このモデルは、プラットフォーム内での責務を明確にします。
 
-- タイムコードを **どこで生成するのか**
-- タイムコードを **どのレイヤーで伝送するのか**
-- タイムコードを **どこで変換・出力するのか**
+- タイムライン状態を **どこで生成するのか**（Software Timeline Layer）
+- タイムライン状態を **どこでネットワークへ送信するのか**（Sender Layer）
+- タイミング情報を **どこで配信・ルーティングするのか**（Distribution Layer）
+- タイムコードを **どこで表示・解釈・変換するのか**（Receiver / Hardware Layer）
 
 ---
 
@@ -132,62 +138,41 @@ INT Platform は既存の同期システムを置き換えるのではなく、
 
 # アーキテクチャ
 
-INT Platform は 3 種類のデバイス役割で構成されます。
+INT Platform のアーキテクチャは **Sender → Distributor → Receiver** モデルとして理解できます。
 
 ```
-Sender
-   ↓
-INTTC Network
-   ↓
-Receiver / Bridge
+INT Platform
+│
+├─ Protocol
+│   └─ INTTC
+│
+├─ Sender
+│   ├─ Resolve Sender
+│   │   └─ INT TimeCode Tool
+│   ├─ Media Composer Sender
+│   ├─ Premiere Sender
+│   └─ Pro Tools Sender
+│
+├─ Distributor
+│   └─ INT Distributor
+│
+└─ Receiver
+    ├─ INT Viewer
+    │   └─ Software UI / Debug Tools
+    ├─ INT Monitor
+    │   └─ Hardware Timecode Display
+    └─ INT Bridge
+        └─ LTC Output → Legacy Devices
 ```
 
-例：
+このモデルでは、**Sender** が編集ソフトウェアなどからタイムライン状態を生成し、  
+その情報を **INT Distributor** に送信します。
 
-```
-Resolve (Sender)
-      │
-      │ INTTC
-      │
- ┌───────────────┬───────────────┐
- │               │               │
-Receiver      Receiver        Bridge
-(Display)     (Software)     (LTC Generator)
-```
+Distributor はネットワーク配信の中心となり、すべての **Receiver** にタイミング情報を配信します。
+Receiver は Distributor からタイムコード情報を受信し、表示・監視・または LTC などの既存同期信号へ変換します。
 
----
-
-## Sender
-
-ネットワークタイムコードを生成するデバイス。
-
-例：
-
-- **INT TimeCode Tool**
-- DaVinci Resolve Workflow Integration Plugin
-
----
-
-## Receiver
-
-INTTC を受信し、タイムコードを解釈・表示するソフトウェア。
-
-例：
-
-- **SoftReceiver**
-
----
-
-## Bridge
-
-ネットワークタイムコードを **LTC 信号に変換するハードウェア**。
-
-例：
-
-- **RP2040 (Pico2) + W5500**
-- INT TimeCode Bridge
-
----
+この分離により、Resolve / Media Composer / Premiere / Pro Tools など複数の Sender 実装をサポートしながら、  
+ソフトウェアビューア・ハードウェア表示装置・LTC 変換デバイスなど様々な Receiver を同一プラットフォーム上で構成できます。
 
 # コア技術
 
@@ -281,7 +266,7 @@ bridge/
     int-timecode-bridge/
 
 receiver/
-    softreceiver/
+    viewer/
 ```
 
 ---
@@ -295,7 +280,7 @@ receiver/
 - INTTC Protocol
 - Resolve Sender
 - INT TimeCode Bridge
-- SoftReceiver
+- INT Viewer
 
 ---
 

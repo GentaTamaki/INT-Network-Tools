@@ -1,183 +1,80 @@
 # INT Platform
+Network-based synchronization infrastructure for creative production systems.
 
-INT Platform is a production synchronization infrastructure for modern media workflows.
+INT Platform is a **production synchronization infrastructure for creative workflows**.
 
-Production Synchronization Infrastructure for Creative Workflows
+It is designed to transport, distribute, and resolve timeline timing information across networked production environments while maintaining compatibility with traditional **LTC‑based synchronization systems**.
 
-
-🇺🇸 English | 🇯🇵 [日本語](README_JA.md)
-
-Protocol: **INTTC v1.2** | Status: **Draft** | Transport: **UDP 8001**
-
-
-INT Platform is an experimental system architecture designed to transport, resolve, and distribute timecode across networked environments while maintaining compatibility with traditional **LTC‑based workflows**.
-
-INTTC is designed as a network-native timecode layer bridging software timelines and LTC-based synchronization systems.
-
-The platform focuses on bridging modern software‑driven production systems with legacy professional timing infrastructure used in broadcast, stage, and virtual production environments.
+The platform connects modern software‑driven timelines with legacy hardware timing infrastructure used in post‑production, broadcast, stage systems, and virtual production.
 
 ---
 
-# Why INT Platform Exists
+# Core Idea
 
-Modern production environments increasingly rely on software timelines and networked systems, while many professional synchronization workflows still depend on **LTC-based hardware infrastructure**.
-
-This creates a gap between:
-
-- software-driven creative tools
-- hardware-based timing systems used in broadcast, stage, and media playback
-
-INT Platform is designed to bridge this gap.
-
-It introduces a **network-native timecode layer (INTTC)** that allows software systems to distribute timing information across IP networks while remaining compatible with traditional LTC workflows through bridge devices.
-
-In short:
-
-```
-Software timelines → Network timecode → LTC hardware ecosystem
-```
-
-This approach enables modern creative tools to integrate with existing professional infrastructure without replacing it.
-
----
-
-# Documentation
-
-Contribution guidelines: see [CONTRIBUTING.md](CONTRIBUTING.md)
-
-### Philosophy
-- English: [INT_Philosophy_EN.md](doc/philosophy/INT_Philosophy_EN.md)
-- 日本語: [INT_Philosophy_JA.md](doc/philosophy/INT_Philosophy_JA.md)
-
-### System Specification
-- English: [INT_System_Spec_v0.1_EN.md](doc/system/INT_System_Spec_v0.1_EN.md)
-- 日本語: [INT_System_Spec_v0.1_JA.md](doc/system/INT_System_Spec_v0.1_JA.md)
-
-### INTTC Protocol
-- English: [INTTC_Protocol_v1.2_EN.md](doc/protocol/INTTC_Protocol_v1.2_EN.md)
-- 日本語: [INTTC_Protocol_v1.2_JA.md](doc/protocol/INTTC_Protocol_v1.2_JA.md)
-
----
-
-# Project Goals
-
-INT Platform aims to:
-
-- Enable **network‑native timecode distribution**
-- Maintain compatibility with **existing LTC hardware ecosystems**
-- Support both **editorial workflows** and **frame‑critical synchronization environments**
-- Provide a foundation for **future timing systems (PTP, GPS, distributed sync)**
-
----
-
-# Core Concepts
-
-## Network Timecode Layer
-
-Instead of replacing existing synchronization systems, INT introduces a **network distribution layer for timecode**.
-
-Software systems can generate and distribute time information while remaining compatible with hardware infrastructure via LTC output.
-
----
-
-## Output Policy
-
-The system supports two operational timing models.
-
-### Loose
-
-Designed for editorial workflows.
-
-Characteristics:
-
-- Small timing jitter tolerated  
-- Packet‑driven updates acceptable  
-- Fast reacquisition preferred  
-
-Typical uses:
-
-- Client monitoring
-- Review environments
-- Post‑production editing
-
----
-
-### Tight
-
-Designed for synchronization‑critical environments.
-
-Characteristics:
-
-- Continuous frame progression
-- Stable frame boundaries
-- Clock‑disciplined output
-
-Typical uses:
-
-- Unreal Engine
-- LED wall / virtual production
-- Stage lighting systems
-- Media servers
-
----
-
-# Architecture
-
-INT Platform consists of three primary device classes.
-
-```
-Sender
-   ↓
-INTTC Network
-   ↓
-Receiver / Bridge
-```
-
-Example topology:
-
-```
-Resolve (Sender)
-      │
-      │ INTTC
-      │
- ┌───────────────┬───────────────┐
- │               │               │
-Receiver      Receiver        Bridge
-(Display)     (Software)     (LTC Generator)
-```
-
-Conceptual timing bridge:
+INT Platform separates **timeline state generation**, **network distribution**, and **hardware synchronization** into clearly defined roles.
 
 ```
 Software Timeline
-        │
-        │ INTTC
-        │
-   Network Layer
-        │
- ┌──────┴─────────┐
- │                │
-Receiver       Bridge
-(Display)      (LTC Output)
-                  │
-                Legacy
-                Devices
+      ↓
+Sender
+      ↓
+Distributor
+      ↓
+Receivers / Hardware
 ```
 
-This diagram illustrates how INTTC acts as a network layer between modern software timelines and legacy LTC‑based hardware systems.
+This structure allows creative software systems to remain lightweight while centralizing network timing distribution.
+
+---
+
+# Platform Architecture
+
+```
+INT Platform
+│
+├ Protocol
+│   └ INTTC
+│
+├ Sender
+│   ├ Resolve Sender
+│   │   └ INT TimeCode Tool
+│   ├ Media Composer Sender
+│   ├ Premiere Sender
+│   └ Pro Tools Sender
+│
+├ Distributor
+│   └ INT Distributor
+│
+└ Receiver
+    ├ INT Viewer
+    ├ INT Monitor
+    └ INT Bridge
+```
+
+### Sender
+Extracts timeline state from creative software such as NLEs or DAWs.
+
+### Distributor
+Acts as the central network distribution point.  
+All senders publish timing information to the distributor, and all receivers subscribe to it.
+
+### Receiver
+Displays, monitors, or converts timecode for external systems.
 
 ---
 
 # Three-Layer Model
 
-INT Platform can be understood as a three-layer synchronization model:
+INT Platform can also be understood as a layered synchronization model:
 
 ```
 Software Timeline Layer
         ↓
-INTTC Network Layer
+Sender Layer
         ↓
-Hardware Synchronization Layer
+Distribution Layer
+        ↓
+Receiver / Hardware Layer
 ```
 
 In practical terms:
@@ -185,155 +82,32 @@ In practical terms:
 ```
 Editing / Playback Software
         ↓
-INTTC
+Sender
         ↓
-Bridge / Receiver
+INT Distributor
+        ↓
+Receiver / Bridge
         ↓
 LTC / Legacy / External Sync Systems
 ```
 
-This model helps distinguish:
+This layered model clarifies where different responsibilities exist within the platform:
 
-- where timecode is generated
-- how timecode is transported
-- where timecode is resolved or converted for external systems
-```
-
----
-
-## Sender
-
-Generates network timecode packets.
-
-Senders typically transmit INTTC packets at a **fixed rate independent of project frame rate**.
-
-Default transmission model:
-
-- Packet rate: **60 Hz**
-- Expected interval: **~16.67 ms**
-
-Each packet represents a snapshot of the sender's current logical timeline state. Receivers treat the **packet content** as the authoritative timing state rather than relying on packet arrival timing.
-
-Example:
-
-- **INT TimeCode Tool**
-- DaVinci Resolve Workflow Integration Plugin
+- where timeline state is generated (software timeline layer)
+- where timeline state is published to the network (sender layer)
+- where distribution and routing occur (distribution layer)
+- where timecode is resolved, displayed, or converted for external systems (receiver / hardware layer)
 
 ---
 
-## Receiver
+# Design Goals
 
-Software receiver that resolves and displays timecode.
+INT Platform aims to:
 
-Example:
-
-- **SoftReceiver**
-
----
-
-## Bridge
-
-Hardware receiver that converts network timecode into **LTC output**.
-
-Example implementation:
-
-- **RP2040 (Pico2) + W5500**
-- INT TimeCode Bridge
-
----
-
-# Core Technology
-
-## INTTC Protocol
-
-INT Platform uses the **INTTC protocol** for network timecode transport.
-
-Protocol features include:
-
-- Timecode distribution over UDP
-- Source identification
-- Frame rate metadata
-- Drop‑frame support
-- Multiple time sources
-
-Default transport:
-
-```
-UDP Port 8001
-```
-
----
-
-# Design Principles
-
-## Compatibility First
-
-INT Platform always preserves compatibility with existing workflows.
-
-**LTC output remains a first‑class interface.**
-
----
-
-## Software‑Defined Timing
-
-Receivers maintain an internal timing model separating:
-
-```
-Packet Time
-Resolved Time
-Output Time
-```
-
-This architecture allows:
-
-- jitter tolerance
-- continuous output generation
-- controlled reacquisition
-- flexible synchronization strategies
-
----
-
-# Example Applications
-
-## Post Production
-
-- editorial review
-- client monitors
-
-## Broadcast
-
-- LTC distribution
-- timing displays
-
-## Virtual Production
-
-- Unreal Engine synchronization
-- LED wall playback
-
-## Stage Systems
-
-- DMX lighting
-- media server synchronization
-
----
-
-# Repository Structure
-
-```
-doc/
-    philosophy/
-    system/
-    protocol/
-
-sender/
-    resolve-timecode-tool/
-
-bridge/
-    int-timecode-bridge/
-
-receiver/
-    softreceiver/
-```
+- enable **network‑native timecode distribution**
+- maintain compatibility with **existing LTC hardware ecosystems**
+- support both **editorial workflows** and **synchronization‑critical environments**
+- provide a foundation for future synchronization systems such as **PTP, GPS, and distributed timing**
 
 ---
 
@@ -346,13 +120,7 @@ Core components currently under development:
 - INTTC Protocol
 - Resolve Sender
 - INT TimeCode Bridge
-- SoftReceiver
-
----
-
-# License
-
-TBD
+- INT Viewer
 
 ---
 
