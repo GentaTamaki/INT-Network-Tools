@@ -1,15 +1,30 @@
-
-
-# INT Network Tools
+# INT Platform
 ## Philosophy
 
-INT Network Tools is designed to bridge modern software-driven production environments and traditional hardware-based timing systems.
+INT Platform began as a practical solution to missing functionality in modern editorial software.
 
-Professional media workflows rely heavily on **timecode synchronization**, yet modern creative tools and legacy broadcast hardware often operate in different timing domains.
+While professional media workflows depend heavily on **timecode synchronization**, many modern creative tools operate entirely inside software environments and lack simple ways to distribute timeline timecode to external systems.
 
-INT Network Tools provides a **network-native timecode distribution layer** that connects these environments.
+INT Platform introduces a **network‑native timecode distribution layer** that allows software timelines, monitoring tools, and traditional LTC‑based hardware to operate within a shared timing system.
 
 ---
+
+
+# Origins
+
+INT Platform originated from practical needs inside real editorial workflows.
+
+The project began with the development of tools for DaVinci Resolve that provided functionality not available in existing editing software. These tools were initially created to solve day‑to‑day operational problems encountered during professional post‑production work.
+
+As these tools evolved, additional components became necessary:
+
+- a way to transmit timeline timecode outside the editing system
+- a bridge device to convert network timecode into LTC
+- receiver applications for monitoring and distributed timing
+
+This progression naturally led to the design of a network‑based timecode system.
+
+In other words, INT Platform did not begin as a protocol design project. Instead, the protocol emerged organically from real production tools and workflows.
 
 # 1. Bridging Software and Hardware Worlds
 
@@ -29,7 +44,7 @@ At the same time, many professional systems still depend on **LTC-based synchron
 - media playback hardware
 - timecode display units
 
-INT Network Tools connects these ecosystems by transporting timecode over IP networks while preserving compatibility with LTC hardware.
+INT Platform connects these ecosystems by transporting timecode over IP networks while preserving compatibility with LTC hardware.
 
 ```
 Software Systems
@@ -47,7 +62,7 @@ Legacy Hardware
 
 # 2. Network Timecode Distribution
 
-Instead of replacing existing synchronization infrastructure, INT Network Tools introduces a **network distribution layer for timecode**.
+Instead of replacing existing synchronization infrastructure, INT Platform introduces a **network distribution layer for timecode**.
 
 This allows:
 
@@ -75,7 +90,7 @@ Synchronization-critical environments require:
 - deterministic output
 - continuous time progression
 
-To support both scenarios, INT Network Tools defines two output policies:
+To support both scenarios, INT Platform defines two output policies:
 
 ```
 Loose
@@ -119,7 +134,7 @@ Typical use cases:
 
 # 4. Software-Defined Timing
 
-INT Network Tools treats time distribution as a **software-defined system**.
+INT Platform treats time distribution as a **software-defined system**.
 
 Receivers internally separate time into three layers:
 
@@ -140,7 +155,7 @@ This architecture allows systems to:
 
 # 5. Compatibility First
 
-A core design principle of INT Network Tools is:
+A core design principle of INT Platform is:
 
 > Compatibility with existing workflows must never be sacrificed.
 
@@ -152,7 +167,7 @@ LTC remains the most universal synchronization signal used across broadcast, sta
 
 # 6. Foundation for Future Synchronization Systems
 
-INT Network Tools is designed to evolve.
+INT Platform is designed to evolve.
 
 Future extensions may include:
 
@@ -162,6 +177,45 @@ Future extensions may include:
 - distributed synchronization architectures
 
 By separating protocol transport, time resolution, and signal generation, the system provides a flexible foundation for future timing technologies.
+
+---
+
+# 7. Open Platform Philosophy
+
+INT Platform follows an open-platform philosophy.
+
+The goal of the project is to make the **concepts, architecture, and protocol** available so that the industry can benefit from a shared understanding of network‑based timecode distribution.
+
+For this reason, the following elements are intended to be openly documented:
+
+- protocol specifications
+- system architecture
+- timing models
+- conceptual design principles
+
+At the same time, individual implementations of INT-compatible tools may remain proprietary.
+
+Commercial products such as timeline tools, bridge devices, or receiver applications may implement the INT concepts while maintaining their own internal designs and optimizations.
+
+This approach allows INT Platform to function both as:
+
+- an open technical foundation for network timecode systems
+- a platform for professional tools built on top of that foundation
+
+In short, INT aims to share the **idea and the language of the system**, while leaving room for innovation in how specific tools are implemented.
+
+---
+
+# 8. Design Principles
+
+The development of INT Platform follows a small set of practical design principles:
+
+- **Real workflows first** — tools should solve real production problems before abstract system design.
+- **Compatibility over reinvention** — existing infrastructure such as LTC must remain usable.
+- **Network-native thinking** — timecode distribution should behave naturally within modern IP-based systems.
+- **Open concepts, independent implementations** — the architecture and protocol are shared, while individual tools may innovate in their implementations.
+
+These principles reflect the practical origin of the project and guide the continued evolution of INT Platform.
 
 ---
 

@@ -1,6 +1,6 @@
-# INT Network Tools
+# INT Platform
 
-Network Timecode Infrastructure for Creative Workflows
+Production Synchronization Infrastructure for Creative Workflows
 
 
 🇺🇸 English | 🇯🇵 [日本語](README_JA.md)
@@ -8,15 +8,15 @@ Network Timecode Infrastructure for Creative Workflows
 Protocol: **INTTC v1.2** | Status: **Draft** | Transport: **UDP 8001**
 
 
-INT Network Tools is an experimental system architecture designed to transport, resolve, and distribute timecode across networked environments while maintaining compatibility with traditional **LTC‑based workflows**.
+INT Platform is an experimental system architecture designed to transport, resolve, and distribute timecode across networked environments while maintaining compatibility with traditional **LTC‑based workflows**.
 
 INTTC is designed as a network-native timecode layer bridging software timelines and LTC-based synchronization systems.
 
-The project focuses on bridging modern software‑driven production systems with legacy professional timing infrastructure used in broadcast, stage, and virtual production environments.
+The platform focuses on bridging modern software‑driven production systems with legacy professional timing infrastructure used in broadcast, stage, and virtual production environments.
 
 ---
 
-# Why INT Network Tools Exists
+# Why INT Platform Exists
 
 Modern production environments increasingly rely on software timelines and networked systems, while many professional synchronization workflows still depend on **LTC-based hardware infrastructure**.
 
@@ -25,7 +25,7 @@ This creates a gap between:
 - software-driven creative tools
 - hardware-based timing systems used in broadcast, stage, and media playback
 
-INT Network Tools is designed to bridge this gap.
+INT Platform is designed to bridge this gap.
 
 It introduces a **network-native timecode layer (INTTC)** that allows software systems to distribute timing information across IP networks while remaining compatible with traditional LTC workflows through bridge devices.
 
@@ -44,22 +44,22 @@ This approach enables modern creative tools to integrate with existing professio
 Contribution guidelines: see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ### Philosophy
-- English: [INT_Philosophy.md](docs/philosophy/INT_Philosophy.md)
-- 日本語: [INT_Philosophy_JA.md](docs/philosophy/INT_Philosophy_JA.md)
+- English: [INT_Philosophy_EN.md](doc/philosophy/INT_Philosophy_EN.md)
+- 日本語: [INT_Philosophy_JA.md](doc/philosophy/INT_Philosophy_JA.md)
 
 ### System Specification
-- English: [INT_System_Spec_v0.1.md](docs/system/INT_System_Spec_v0.1.md)
-- 日本語: [INT_System_Spec_v0.1_JA.md](docs/system/INT_System_Spec_v0.1_JA.md)
+- English: [INT_System_Spec_v0.1_EN.md](doc/system/INT_System_Spec_v0.1_EN.md)
+- 日本語: [INT_System_Spec_v0.1_JA.md](doc/system/INT_System_Spec_v0.1_JA.md)
 
 ### INTTC Protocol
-- English: [INTTC_Protocol_v1.2.md](docs/protocol/INTTC_Protocol_v1.2.md)
-- 日本語: [INTTC_Protocol_v1.2_JA.md](docs/protocol/INTTC_Protocol_v1.2_JA.md)
+- English: [INTTC_Protocol_v1.2_EN.md](doc/protocol/INTTC_Protocol_v1.2_EN.md)
+- 日本語: [INTTC_Protocol_v1.2_JA.md](doc/protocol/INTTC_Protocol_v1.2_JA.md)
 
 ---
 
 # Project Goals
 
-INT Network Tools aims to:
+INT Platform aims to:
 
 - Enable **network‑native timecode distribution**
 - Maintain compatibility with **existing LTC hardware ecosystems**
@@ -121,7 +121,7 @@ Typical uses:
 
 # Architecture
 
-INT Network Tools consists of three primary device classes.
+INT Platform consists of three primary device classes.
 
 ```
 Sender
@@ -212,7 +212,7 @@ Example implementation:
 
 ## INTTC Protocol
 
-INT Network Tools uses the **INTTC protocol** for network timecode transport.
+INT Platform uses the **INTTC protocol** for network timecode transport.
 
 Protocol features include:
 
@@ -234,7 +234,7 @@ UDP Port 8001
 
 ## Compatibility First
 
-INT Network Tools always preserves compatibility with existing workflows.
+INT Platform always preserves compatibility with existing workflows.
 
 **LTC output remains a first‑class interface.**
 
@@ -286,7 +286,7 @@ This architecture allows:
 # Repository Structure
 
 ```
-docs/
+doc/
     philosophy/
     system/
     protocol/
@@ -324,4 +324,4 @@ TBD
 
 # Author
 
-INT Network Tools DEV
+INT Platform DEV

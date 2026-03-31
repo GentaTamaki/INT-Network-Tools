@@ -1,10 +1,10 @@
 
 
-# INT Network Tools
+# INT Platform
 ## System Specification
 ### Version 0.1 (Draft)
 
-INT Network Tools is a network-based timecode distribution system designed to bridge modern software production workflows and traditional LTC‑based synchronization environments.
+INT Platform is a network-based timecode distribution system designed to bridge modern software production workflows and traditional LTC‑based synchronization environments.
 
 The system provides a lightweight network protocol (INTTC) and a set of device roles that allow timecode to be transmitted, resolved, and output across heterogeneous production systems.
 
@@ -12,7 +12,7 @@ The system provides a lightweight network protocol (INTTC) and a set of device r
 
 # 1. Goals
 
-INT Network Tools is designed with the following goals:
+INT Platform is designed with the following goals:
 
 - Provide **network-native timecode distribution**
 - Maintain compatibility with **existing LTC infrastructure**
@@ -24,7 +24,7 @@ INT Network Tools is designed with the following goals:
 
 # 2. System Overview
 
-INT Network Tools consists of three primary device classes.
+INT Platform consists of three primary device classes.
 
 ```
 Sender
@@ -140,7 +140,7 @@ RP2040 (Pico2) + W5500
 
 # 4. Timing Architecture
 
-INT Network Tools separates time handling into three layers.
+INT Platform separates time handling into three layers.
 
 ```
 Packet Time
@@ -192,7 +192,7 @@ Output Time may differ from Resolved Time due to:
 
 # 5. Output Policy
 
-INT Network Tools defines two operational policies.
+INT Platform defines two operational policies.
 
 ```
 Loose

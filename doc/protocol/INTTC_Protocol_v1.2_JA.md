@@ -308,7 +308,7 @@ REFERENCE_IN
 
 # 7. Receiver の動作
 
-Receiver は以下の処理を行います。
+Receiver は以下の処理ロジックを実装します。
 
 1. SEQ によるパケット順序管理
 2. パケットロス検出
