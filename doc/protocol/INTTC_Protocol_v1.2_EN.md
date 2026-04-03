@@ -306,7 +306,7 @@ REFERENCE_IN
 
 ---
 
-# 7. Receiver Behavior
+# 7. Timing Model and Receiver Behavior
 
 Receivers process incoming packets using the following logic:
 
@@ -324,14 +324,18 @@ Receiver implementations may implement additional timing models such as:
 
 ## 7.1 Sender Transmission Model
 
-INTTC senders should transmit packets at a fixed rate independent of project frame rate.
+INTTC senders transmit packets at a fixed periodic rate independent of the
+project frame rate.
 
 Default sender mode:
 
 - Packet rate: 60 Hz
-- Expected interval: approximately 16.67 ms (60 Hz)
+- Expected interval: ~16.67 ms
 
-Each packet represents a snapshot of the sender's current logical timing state at the sender send tick, including:
+Each packet represents a **snapshot of the sender's logical timing state** at
+the moment the packet is emitted.
+
+The packet includes the current values for:
 
 - primary timecode
 - alternate timecode
@@ -340,16 +344,144 @@ Each packet represents a snapshot of the sender's current logical timing state a
 - frame rate
 - drop-frame flag
 
-Packets are not defined as one-per-frame messages and should not be interpreted as future frame scheduling instructions.
+INTTC packets are **not defined as one-per-frame messages** and must not be
+interpreted as scheduling instructions for future frames.
 
-Receivers must treat packet content as the authoritative timing state rather than the packet arrival time.
+Instead, packets communicate the sender's current timing state. Receivers
+should treat packet contents as authoritative timing information rather than
+relying on packet arrival timing.
 
-Senders may additionally emit immediate packets when significant state changes occur, including the following cases:
+Senders may also emit **immediate packets** when significant state transitions
+occur. Typical triggers include:
 
 - play / stop transitions
 - source selection changes
-- timecode discontinuities (senders should emit an immediate packet when such discontinuities occur)
-- frame-rate related changes
+- timecode discontinuities
+- frame-rate changes
+
+Immediate packets allow receivers to react quickly to state changes without
+waiting for the next periodic transmission.
+
+## 7.2 Receiver Timing Model
+
+Receivers reconstruct timing using the sender snapshots combined with a local
+clock model.
+
+Typical receiver pipeline:
+
+1. Receive INTTC packet
+2. Validate sequence number
+3. Resolve active time source
+4. Establish timing anchor
+5. Advance time using local clock
+
+Receivers should treat incoming packets as **timing anchors** rather than
+continuous frame updates.
+
+This model allows receivers to:
+
+- smooth packet jitter
+- tolerate small packet loss
+- maintain continuous time progression
+
+Receivers may implement additional timing strategies such as:
+
+- holdover during packet loss
+- smoothing during reacquisition
+- drift correction using external reference
+
+Exact receiver timing algorithms are implementation-specific and are not
+strictly defined by the protocol.
+
+## 7.3 Packet Encoding Model
+
+INTTC v1.2 defines a **text-based key=value packet format** for readability,
+debugging, and rapid implementation across software and embedded systems.
+
+Packet model:
+
+- UTF-8 text
+- ASCII-safe field names and values recommended
+- `|` (pipe) used as field separator
+- `KEY=VALUE` used for field representation
+
+General packet form:
+
+```text
+INTTC1|VER=1|SEQ=10452|SRC_ID=RSV001|STATE=PLAY|SRC_TC=01:23:45:12|ALT_TC=01:23:45:12|ACTIVE=SRC|DISPLAY=SRC|OUTPUT=SRC|FPS=23.976|DF=0
+```
+
+Encoding rules:
+
+1. The packet must begin with the protocol identifier:
+
+```text
+INTTC1
+```
+
+2. Each field must appear as:
+
+```text
+KEY=VALUE
+```
+
+3. Fields must be separated by:
+
+```text
+|
+```
+
+4. Field ordering should follow the reference packet layout when practical, but
+   receivers must parse by key name rather than field position.
+
+5. Unknown fields must be ignored unless an implementation explicitly defines
+   local extensions.
+
+6. Missing optional fields may be treated as unavailable rather than invalid.
+
+Recommended design intent:
+
+- human-readable in logs
+- easy to debug with packet capture tools
+- easy to generate in Python, Go, JavaScript, and embedded C
+- extensible without breaking older receivers
+
+This text encoding model is the normative packet representation for INTTC v1.2.
+Future protocol versions may define additional binary transport formats, but
+such formats are outside the scope of this version.
+
+Implementations should keep packet size reasonably small to avoid UDP
+fragmentation on typical Ethernet networks. The reference INTTC packet format
+is designed to remain well below common MTU limits.
+
+## 7.4 Clock Authority Model
+
+INTTC follows a **sender-authoritative timing model**.
+
+In this model:
+
+- The sender represents the authoritative source of timeline timing.
+- Receivers follow the sender's timing using packet snapshots and local clock
+  propagation.
+
+Receivers must not attempt to reinterpret packet timing using local system
+clocks as a primary reference. Instead, receivers should treat the timecode
+contained in each packet as the authoritative timing state.
+
+The local receiver clock is used only to advance time between packets and to
+smooth packet arrival jitter.
+
+This design ensures consistent timecode interpretation across heterogeneous
+systems such as:
+
+- NLE software
+- stage display systems
+- hardware LTC bridges
+- monitoring receivers
+
+Clock discipline mechanisms such as PTP or external reference inputs may be
+used by specific implementations, but these are considered **implementation
+extensions** and are outside the core INTTC protocol definition.
 
 ---
 

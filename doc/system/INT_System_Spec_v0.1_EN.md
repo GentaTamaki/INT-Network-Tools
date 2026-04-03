@@ -1,5 +1,3 @@
-
-
 # INT Platform
 ## System Specification
 ### Version 0.1 (Draft)
@@ -70,26 +68,27 @@ INT TimeCode Tool
 
 ### Sender Transmission Timing
 
-Senders should transmit INTTC packets at a fixed rate independent of project frame rate.
+Sender transmission timing is defined by the INTTC protocol specification.
 
-Default sender mode:
+See:
+INTTC Protocol v1.2 — Section 7 (Sender Transmission Model)
+
+Senders typically transmit packets at a fixed periodic rate independent of the
+project frame rate. The default reference implementation uses:
 
 - Packet rate: 60 Hz
-- Expected interval: approximately 16.67 ms (60 Hz)
+- Interval: ~16.67 ms
 
-Each transmitted packet represents a snapshot of the sender's current logical timeline state at the sender transmission tick.
+Each packet represents a snapshot of the sender's logical timeline state.
 
-The packet transmission schedule determines **when packets are sent**, but does not redefine the true timecode value itself.
+The packet transmission schedule determines **when packets are emitted**, but
+it does not redefine the timecode value itself.
 
-Receivers must treat the **packet content** as the authoritative timing state rather than relying on packet arrival time.
+Receivers must treat the **packet content** as the authoritative timing state
+rather than relying on packet arrival time.
 
-Senders may also emit immediate packets when significant state changes occur, including:
-
-- play / stop transitions
-- source selection changes
-- timecode discontinuities
-- frame‑rate related configuration changes
-```
+Senders may also emit immediate packets when significant state transitions
+occur.
 
 ---
 
@@ -98,6 +97,14 @@ Senders may also emit immediate packets when significant state changes occur, in
 Receivers consume INTTC packets and resolve timecode information for display or software use.
 
 Receiver responsibilities:
+
+Typical receiver timing pipeline:
+
+1. Receive INTTC packet
+2. Validate packet sequence (SEQ)
+3. Resolve active time source (ACTIVE)
+4. Establish timing anchor
+5. Advance time using the local frame clock
 
 - packet reception
 - sequence tracking
@@ -147,6 +154,14 @@ Packet Time
 Resolved Time
 Output Time
 ```
+
+These layers separate transport timing from receiver interpretation and
+physical output generation:
+
+- Packet Time represents the sender timeline state transmitted over INTTC.
+- Resolved Time represents the receiver's interpreted logical timecode state.
+- Output Time represents the time value used for actual display or signal
+  generation.
 
 ---
 
@@ -506,3 +521,44 @@ Future versions may include:
 - redundancy mechanisms
 - multi-sender arbitration
 - extended metadata
+
+---
+
+# 16. Timing Model Summary
+
+INT Platform separates time handling into three conceptual layers.
+
+```
+Sender Timeline
+      ↓
+Packet Time (INTTC transport)
+      ↓
+Resolved Time (receiver interpretation)
+      ↓
+Output Time (signal generation)
+```
+
+This layered design allows receivers to tolerate network jitter while
+maintaining stable output timing for synchronization‑critical systems.
+
+---
+
+# 17. Network Behavior
+
+INT Platform assumes operation on a low‑latency local network.
+
+Typical characteristics:
+
+- UDP packet transport
+- small packet sizes
+- periodic sender transmission
+- tolerance to minor packet loss
+
+Receivers are expected to handle:
+
+- packet reordering
+- temporary packet loss
+- variable packet arrival timing
+
+Timing stability is maintained by the receiver's local frame clock rather than
+by packet arrival cadence.

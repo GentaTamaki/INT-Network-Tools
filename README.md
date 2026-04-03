@@ -1,6 +1,26 @@
 # INT Platform
 Network-based synchronization infrastructure for creative production systems.
 
+---
+
+## Quick Architecture
+
+```
+Creative Software Timeline
+        ↓
+INT Sender
+        ↓
+INT Distributor
+        ↓
+Receivers / Bridges / Monitoring Systems
+```
+
+INT Platform separates **timeline generation**, **network distribution**, and **hardware synchronization** into independent roles.
+
+This architecture allows creative software to stay lightweight while enabling a scalable synchronization infrastructure across production environments.
+
+---
+
 INT Platform is a **production synchronization infrastructure for creative workflows**.
 
 It is designed to transport, distribute, and resolve timeline timing information across networked production environments while maintaining compatibility with traditional **LTC‑based synchronization systems**.
@@ -13,17 +33,7 @@ The platform connects modern software‑driven timelines with legacy hardware ti
 
 INT Platform separates **timeline state generation**, **network distribution**, and **hardware synchronization** into clearly defined roles.
 
-```
-Software Timeline
-      ↓
-Sender
-      ↓
-Distributor
-      ↓
-Receivers / Hardware
-```
-
-This structure allows creative software systems to remain lightweight while centralizing network timing distribution.
+The goal is to decouple creative software from synchronization infrastructure while keeping full compatibility with traditional broadcast and production timing systems.
 
 ---
 
@@ -35,7 +45,7 @@ INT Platform
 ├ Protocol
 │   └ INTTC
 │
-├ Sender
+├ Senders
 │   ├ Resolve Sender
 │   │   └ INT TimeCode Tool
 │   ├ Media Composer Sender
@@ -45,7 +55,7 @@ INT Platform
 ├ Distributor
 │   └ INT Distributor
 │
-└ Receiver
+└ Receivers
     ├ INT Viewer
     ├ INT Monitor
     └ INT Bridge
@@ -108,6 +118,9 @@ INT Platform aims to:
 - maintain compatibility with **existing LTC hardware ecosystems**
 - support both **editorial workflows** and **synchronization‑critical environments**
 - provide a foundation for future synchronization systems such as **PTP, GPS, and distributed timing**
+- separate **timeline state**, **transport**, and **output synchronization**
+- support **distributed production environments**
+- allow hardware bridges to integrate legacy synchronization systems
 
 ---
 

@@ -14,6 +14,26 @@ INTTC は、ソフトウェアタイムラインと LTC ベースの同期シス
 
 ---
 
+# クイックアーキテクチャ（Quick Architecture）
+
+```
+Creative Software Timeline
+        ↓
+INT Sender
+        ↓
+INT Distributor
+        ↓
+Receivers / Bridges / Monitoring Systems
+```
+
+INT Platform は、**タイムライン生成・ネットワーク配信・ハードウェア同期**をそれぞれ独立した役割として分離しています。
+
+この構造により、編集ソフトウェアなどのクリエイティブツールを軽量に保ちながら、制作環境全体に拡張可能な同期インフラを構築できます。
+
+---
+
+---
+
 # 三層モデル（Three-Layer Model）
 
 INT Platform は、同期インフラを **レイヤーモデル**として理解することもできます。
@@ -138,7 +158,7 @@ INT Platform は既存の同期システムを置き換えるのではなく、
 
 # アーキテクチャ
 
-INT Platform のアーキテクチャは **Sender → Distributor → Receiver** モデルとして理解できます。
+INT Platform のアーキテクチャは **Sender → Distributor → Receiver** モデルを基本とし、複数の Sender と Receiver が共存できる構造として設計されています。
 
 ```
 INT Platform
@@ -146,7 +166,7 @@ INT Platform
 ├─ Protocol
 │   └─ INTTC
 │
-├─ Sender
+├─ Senders
 │   ├─ Resolve Sender
 │   │   └─ INT TimeCode Tool
 │   ├─ Media Composer Sender
@@ -156,7 +176,7 @@ INT Platform
 ├─ Distributor
 │   └─ INT Distributor
 │
-└─ Receiver
+└─ Receivers
     ├─ INT Viewer
     │   └─ Software UI / Debug Tools
     ├─ INT Monitor
